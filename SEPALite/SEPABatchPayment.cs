@@ -42,6 +42,9 @@ namespace SEPALite
 
         public static SEPABatchPayment CreateForOnePaymentBlock(string debtorName, IBANBIC debtorAccount, string messageID, string paymentBlockID, DateTime? paymentExecutionDate = null)
         {
+            if (debtorAccount.NoBICprovided)
+                throw new ArgumentException("No BIC provided for debtor account", "debtorAccount");
+
             var b = new SEPABatchPayment();
 
             b.document.CstmrCdtTrfInitn.GrpHdr.MsgId = Truncate(messageID, maxLengthID);

@@ -18,10 +18,12 @@ namespace SEPALite
 
         public IBANBIC(string iban, BIC bic)
         {
-            if (!(regexpIBAN.IsMatch(iban)))
-                throw new ArgumentException("IBAN code {0} is not valid", iban);
-            
-            IBAN = iban;
+            var trimmedIban = iban.Replace(" ", "");
+
+            if (trimmedIban.Length != 16 || !(regexpIBAN.IsMatch(trimmedIban)))
+                throw new ArgumentException(string.Format("IBAN code {0} is not valid", iban), "iban");
+
+            IBAN = trimmedIban;
 
             BIC = bic;
         }
